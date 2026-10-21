@@ -601,7 +601,8 @@ body.about-to-index.about-open.about-closing #viewport {
 .contact-spacer { height: 1em; }
 
 .contact-label {
-  min-width: 2.5em;
+  width: 2.8em;
+  flex-shrink: 0;
 }
 
 #about-bio {
