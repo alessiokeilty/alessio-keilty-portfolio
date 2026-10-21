@@ -227,7 +227,7 @@ function buildWipHtml(about) {
   const igUrl   = (about && about.instagramUrl) || `https://www.instagram.com/${igName.replace(/^@/, '')}`;
   const contact = email
     ? `You can contact me at <a href="mailto:${email}" class="lnk">${email}</a>`
-      + (igName ? ` or via Instagram at <a href="${igUrl}" target="_blank" rel="noopener noreferrer" class="lnk">${igName.startsWith('@') ? igName : '@' + igName}</a>` : '')
+      + (igName ? ` or via Instagram at <a href="${igUrl}" target="_blank" rel="noopener noreferrer" class="lnk">${igName.startsWith('@') ? igName : '@' + igName}</a>.` : '')
     : '';
   return `<!DOCTYPE html>
 <html lang="en">
