@@ -637,6 +637,12 @@ app.delete('/api/images', wrap(async (req, res) => {
   res.json({ ok: true });
 }));
 
+// ─── Catch-all: unknown paths → index ─────────────────────────────────────────
+app.use((req, res, next) => {
+  if (req.method !== 'GET') return next();
+  res.redirect('/');
+});
+
 // ─── Error handler ─────────────────────────────────────────────────────────────
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
