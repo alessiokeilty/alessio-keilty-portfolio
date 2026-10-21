@@ -89,14 +89,8 @@ async function init() {
   goTo(0);
   bindEvents();
 
-  // /3 always opens on the index; #about is the only exception
-  if (location.hash === '#about') {
-    document.body.classList.remove('preload'); // openGridVisual won't run, so remove it here
-    openAboutVisual();
-  } else {
-    history.replaceState(null, '', '#index');
-    openGridVisual(true); // instant: removes preload internally and fades in the landing UI
-  }
+  history.replaceState(null, '', '#index');
+  openGridVisual(true); // instant: removes preload internally and fades in the landing UI
 }
 
 /* ─── Carousel ───────────────────────────────────────────────────── */
