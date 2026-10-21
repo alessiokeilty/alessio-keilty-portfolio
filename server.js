@@ -231,7 +231,8 @@ const WIP_HTML = `<!DOCTYPE html>
 <style>
 @font-face { font-family: 'Basel'; src: url('/fonts/Basel-Book.otf') format('opentype'); }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Basel', Helvetica, Arial, sans-serif; font-size: 14.5px; letter-spacing: 0.030em; padding: 16px; -webkit-font-smoothing: antialiased; }
+html, body { height: 100%; }
+body { font-family: 'Basel', Helvetica, Arial, sans-serif; font-size: 14.5px; letter-spacing: 0.030em; display: flex; align-items: center; justify-content: center; -webkit-font-smoothing: antialiased; }
 </style>
 </head>
 <body>Alessio Keilty website under construction</body>
