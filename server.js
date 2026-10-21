@@ -240,7 +240,7 @@ function buildWipHtml(about) {
 @font-face { font-family: 'Basel'; src: url('/fonts/Basel-Book.otf') format('opentype'); }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
-body { font-family: 'Basel', Helvetica, Arial, sans-serif; font-size: 14.5px; letter-spacing: 0.030em; line-height: 1.2; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px; -webkit-font-smoothing: antialiased; }
+body { font-family: 'Basel', Helvetica, Arial, sans-serif; font-size: 14.5px; letter-spacing: 0.030em; line-height: 1.2; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px; -webkit-font-smoothing: antialiased; hyphens: auto; -webkit-hyphens: auto; }
 .lnk { color: inherit; text-decoration: none; transition: opacity 0.2s; }
 .lnk:hover { opacity: 0.3; }
 </style>

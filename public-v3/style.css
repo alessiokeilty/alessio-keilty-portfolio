@@ -30,6 +30,8 @@ html, body {
   letter-spacing: 0.030em;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
 /* ─── Top bar ─────────────────────────────────────────── */
