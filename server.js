@@ -220,6 +220,34 @@ app.use('/api', (req, res, next) => { res.set('Cache-Control', 'no-store'); next
 app.use('/uploads', express.static(UPLOADS));
 app.use('/fonts',   express.static(path.join(BASE, 'Font')));
 
+// ─── WIP mode ─────────────────────────────────────────────────────────────────
+const WIP_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<title>Alessio Keilty</title>
+<style>
+@font-face { font-family: 'Basel'; src: url('/fonts/Basel-Book.otf') format('opentype'); }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Basel', Helvetica, Arial, sans-serif; font-size: 14.5px; letter-spacing: 0.030em; padding: 16px; -webkit-font-smoothing: antialiased; }
+</style>
+</head>
+<body>Alessio Keilty website under construction</body>
+</html>`;
+
+app.use(wrap(async (req, res, next) => {
+  // Admin, API, assets always pass through regardless of WIP mode
+  if (req.path.startsWith('/admin') || req.path.startsWith('/api') ||
+      req.path.startsWith('/uploads') || req.path.startsWith('/fonts')) return next();
+  const db = await readDB();
+  if (db.about && db.about.wip && !isAuthenticated(req)) {
+    return res.send(WIP_HTML);
+  }
+  next();
+}));
+
 app.use(express.static(path.join(BASE, 'public-v3')));
 
 // ─── Login page & auth routes (must be before the protected /admin static) ───
@@ -309,8 +337,8 @@ app.get('/api/about', wrap(async (req, res) => {
 
 app.put('/api/about', wrap(async (req, res) => {
   const db = await readDB();
-  const { email = '', instagram = '', instagramUrl = '', bio = '' } = req.body;
-  db.about = { email, instagram, instagramUrl, bio };
+  const { email = '', instagram = '', instagramUrl = '', bio = '', wip = false } = req.body;
+  db.about = { email, instagram, instagramUrl, bio, wip: !!wip };
   await writeDB(db);
   res.json(db.about);
 }));

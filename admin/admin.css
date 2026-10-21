@@ -61,6 +61,21 @@ html, body {
 }
 #site-link:hover { color: var(--accent); }
 
+#wip-toggle-btn {
+  font-family: inherit;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  background: #fff;
+  transition: background .15s, color .15s;
+  text-align: left;
+}
+#wip-toggle-btn.is-wip { background: #fff3cd; border-color: #e6b800; color: #7a5f00; }
+#wip-toggle-btn.is-online { background: #d4edda; border-color: #28a745; color: #155724; }
+#wip-toggle-btn:hover { opacity: 0.75; }
+
 #logout-link {
   color: var(--muted);
   text-decoration: none;

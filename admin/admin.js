@@ -10,7 +10,7 @@ window.fetch = async (...args) => {
 let projects = [];
 let activeId = null;
 let imageSortable = null;
-let aboutData = { email: '', instagram: '', bio: '' };
+let aboutData = { email: '', instagram: '', bio: '', wip: false };
 let selectedProjectIds = new Set();
 let selectedImageIds = new Set();
 let insertAtIndex = null;     // null = append to end; number = insert before that index
@@ -70,6 +70,28 @@ async function loadProjects() {
 
 async function loadAbout() {
   aboutData = await fetch('/api/about').then(r => r.json());
+  renderWipToggle();
+}
+
+function renderWipToggle() {
+  const btn = document.getElementById('wip-toggle-btn');
+  if (aboutData.wip) {
+    btn.textContent = '● Sito WIP — clicca per mettere online';
+    btn.className = 'btn-wip is-wip';
+  } else {
+    btn.textContent = '● Sito online — clicca per WIP';
+    btn.className = 'btn-wip is-online';
+  }
+}
+
+async function toggleWip() {
+  aboutData.wip = !aboutData.wip;
+  renderWipToggle();
+  await fetch('/api/about', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(aboutData)
+  });
 }
 
 /* ─── Project list ───────────────────────────────────────── */
@@ -181,7 +203,8 @@ async function saveAbout() {
     email:        fAboutEmail.value.trim(),
     instagram:    fAboutIg.value.trim(),
     instagramUrl: fAboutIgUrl.value.trim(),
-    bio:          fAboutBio.value.trim()
+    bio:          fAboutBio.value.trim(),
+    wip:          aboutData.wip
   };
   const res = await fetch('/api/about', {
     method: 'PUT',
@@ -640,6 +663,9 @@ function bindEvents() {
   document.getElementById('mobile-back-btn').addEventListener('click', () => {
     document.body.classList.remove('mobile-editor');
   });
+
+  // WIP toggle
+  document.getElementById('wip-toggle-btn').addEventListener('click', toggleWip);
 
   // About editor
   document.getElementById('about-btn').addEventListener('click', openAboutEditor);
