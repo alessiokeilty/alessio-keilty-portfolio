@@ -162,6 +162,7 @@ function buildIndex() {
   });
 
   indexCols.innerHTML = '';
+  let projectIdx = 0;
   projects.forEach(project => {
     const unit = document.createElement('div');
     unit.className = 'col-unit';
@@ -181,10 +182,14 @@ function buildIndex() {
       thumb.className = 'col-thumb';
 
       const img = document.createElement('img');
-      img.src = thumbSrc(image);
+      const src = thumbSrc(image);
+      if (projectIdx === 0) {
+        img.src = src;
+      } else {
+        img.dataset.src = src;
+      }
       img.alt = '';
       img.draggable = false;
-      img.loading = 'lazy';
       img.decoding = 'async';
 
       const num = document.createElement('span');
@@ -244,7 +249,39 @@ function buildIndex() {
     unit.appendChild(col);
     unit.appendChild(colGap);
     indexCols.appendChild(unit);
+    projectIdx++;
   });
+
+  setupGridLazyLoad();
+}
+
+let _gridObserver = null;
+function setupGridLazyLoad() {
+  if (_gridObserver) { _gridObserver.disconnect(); _gridObserver = null; }
+
+  const lazyImgs = indexCols.querySelectorAll('img[data-src]');
+  if (!lazyImgs.length) return;
+
+  if (typeof IntersectionObserver === 'undefined') {
+    lazyImgs.forEach(img => { img.src = img.dataset.src; delete img.dataset.src; });
+    return;
+  }
+
+  _gridObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const img = entry.target;
+      img.src = img.dataset.src;
+      delete img.dataset.src;
+      _gridObserver.unobserve(img);
+    });
+  }, {
+    root: indexCols,
+    rootMargin: '0px 300px 0px 0px',
+    threshold: 0
+  });
+
+  lazyImgs.forEach(img => _gridObserver.observe(img));
 }
 
 // Each project's own image strip (.project-col on desktop, scrolling

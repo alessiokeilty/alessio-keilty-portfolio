@@ -177,7 +177,7 @@ const WEBP_QUALITY   = 80;
 // Thumbnails: used everywhere an image shows up small but many-at-once (the
 // gallery index grid, the sidebar filmstrip) — no point shipping a 2400px
 // file for a 76px-wide thumbnail. Long edge is generous enough for retina.
-const THUMB_DIMENSION = 360;
+const THUMB_DIMENSION = 160;
 const THUMB_QUALITY   = 70;
 
 async function optimizeImage(buffer) {
@@ -240,7 +240,7 @@ function buildWipHtml(about) {
 @font-face { font-family: 'Basel'; src: url('/fonts/Basel-Book.otf') format('opentype'); }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
-body { font-family: 'Basel', Helvetica, Arial, sans-serif; font-size: 14.5px; letter-spacing: 0.030em; line-height: 1.5; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px; -webkit-font-smoothing: antialiased; }
+body { font-family: 'Basel', Helvetica, Arial, sans-serif; font-size: 14.5px; letter-spacing: 0.030em; line-height: 1.2; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px; -webkit-font-smoothing: antialiased; }
 .lnk { color: inherit; text-decoration: none; transition: opacity 0.2s; }
 .lnk:hover { opacity: 0.3; }
 </style>
