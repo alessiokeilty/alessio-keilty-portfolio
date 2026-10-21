@@ -221,7 +221,15 @@ app.use('/uploads', express.static(UPLOADS));
 app.use('/fonts',   express.static(path.join(BASE, 'Font')));
 
 // ─── WIP mode ─────────────────────────────────────────────────────────────────
-const WIP_HTML = `<!DOCTYPE html>
+function buildWipHtml(about) {
+  const email   = (about && about.email)        || '';
+  const igName  = (about && about.instagram)    || '';
+  const igUrl   = (about && about.instagramUrl) || `https://www.instagram.com/${igName.replace(/^@/, '')}`;
+  const contact = email
+    ? `You can contact me at <a href="mailto:${email}" class="lnk">${email}</a>`
+      + (igName ? ` or via Instagram at <a href="${igUrl}" target="_blank" rel="noopener noreferrer" class="lnk">${igName.startsWith('@') ? igName : '@' + igName}</a>` : '')
+    : '';
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -232,11 +240,17 @@ const WIP_HTML = `<!DOCTYPE html>
 @font-face { font-family: 'Basel'; src: url('/fonts/Basel-Book.otf') format('opentype'); }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
-body { font-family: 'Basel', Helvetica, Arial, sans-serif; font-size: 14.5px; letter-spacing: 0.030em; display: flex; align-items: center; justify-content: center; -webkit-font-smoothing: antialiased; }
+body { font-family: 'Basel', Helvetica, Arial, sans-serif; font-size: 14.5px; letter-spacing: 0.030em; line-height: 1.5; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px; -webkit-font-smoothing: antialiased; }
+.lnk { color: inherit; text-decoration: none; transition: opacity 0.2s; }
+.lnk:hover { opacity: 0.3; }
 </style>
 </head>
-<body>Alessio Keilty website under construction</body>
+<body>
+<p>Alessio Keilty website under construction.</p>
+${contact ? `<p>${contact}</p>` : ''}
+</body>
 </html>`;
+}
 
 app.use(wrap(async (req, res, next) => {
   // Admin, API, assets always pass through regardless of WIP mode
@@ -244,7 +258,7 @@ app.use(wrap(async (req, res, next) => {
       req.path.startsWith('/uploads') || req.path.startsWith('/fonts')) return next();
   const db = await readDB();
   if (db.about && db.about.wip && !isAuthenticated(req)) {
-    return res.send(WIP_HTML);
+    return res.send(buildWipHtml(db.about));
   }
   next();
 }));
