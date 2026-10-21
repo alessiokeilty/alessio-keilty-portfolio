@@ -640,7 +640,7 @@ app.delete('/api/images', wrap(async (req, res) => {
 // ─── Catch-all: unknown paths → index ─────────────────────────────────────────
 app.use((req, res, next) => {
   if (req.method !== 'GET') return next();
-  res.redirect('/');
+  res.redirect(req.path === '/about' ? '/#about' : '/');
 });
 
 // ─── Error handler ─────────────────────────────────────────────────────────────
