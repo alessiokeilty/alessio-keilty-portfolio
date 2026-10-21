@@ -598,6 +598,8 @@ body.about-to-index.about-open.about-closing #viewport {
   gap: 14px;
 }
 
+.contact-spacer { height: 1em; }
+
 .contact-label {
   min-width: 1.5em;
 }
