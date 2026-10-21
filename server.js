@@ -15,9 +15,9 @@ const UPLOADS = path.join(BASE, 'uploads');
 const wrap = fn => (req, res, next) => fn(req, res, next).catch(next);
 
 // ─── Storage mode ─────────────────────────────────────────────────────────────
-// BLOB_READ_WRITE_TOKEN is set automatically by Vercel when Blob storage is enabled.
-// Without it (local dev), the app uses the local filesystem as before.
-const USE_BLOB = !!process.env.BLOB_READ_WRITE_TOKEN;
+// Supports both token-based blobs (BLOB_READ_WRITE_TOKEN) and OIDC-based
+// private blobs (BLOB_STORE_ID). Without either, falls back to local filesystem.
+const USE_BLOB = !!(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 const { put, list, del } = USE_BLOB ? require('@vercel/blob') : {};
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
