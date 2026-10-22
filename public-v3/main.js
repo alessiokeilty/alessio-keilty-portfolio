@@ -201,7 +201,8 @@ function buildIndex() {
     });
 
     const titleYear = [project.title, project.year].filter(Boolean).join(', ');
-    const mobileLines = [project.title, project.client, project.year].filter(Boolean);
+    const mobileTitleClient = [project.title, project.client].filter(Boolean).join(', ');
+    const mobileLines = [mobileTitleClient, project.year].filter(Boolean);
 
     if (mobileLines.length) {
       const titleInline = document.createElement('div');
