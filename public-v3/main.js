@@ -201,23 +201,16 @@ function buildIndex() {
     });
 
     const titleYear = [project.title, project.year].filter(Boolean).join(', ');
-    // On mobile the inline label uses client as fallback when there is no title
-    const mobileFirst    = project.title || project.client || '';
-    const mobileTitleYear = [mobileFirst, project.year].filter(Boolean).join(', ');
+    const mobileLines = [project.title, project.client, project.year].filter(Boolean);
 
-    if (mobileTitleYear) {
+    if (mobileLines.length) {
       const titleInline = document.createElement('div');
       titleInline.className = 'col-title-inline';
-      if (mobileFirst && project.year) {
-        const titleLine = document.createElement('div');
-        titleLine.textContent = mobileFirst + ',';
-        const yearLine = document.createElement('div');
-        yearLine.textContent = project.year;
-        titleInline.appendChild(titleLine);
-        titleInline.appendChild(yearLine);
-      } else {
-        titleInline.textContent = mobileTitleYear;
-      }
+      mobileLines.forEach((text, i) => {
+        const line = document.createElement('div');
+        line.textContent = i < mobileLines.length - 1 ? text + ',' : text;
+        titleInline.appendChild(line);
+      });
       colImagesInner.appendChild(titleInline);
     }
 
