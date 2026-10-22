@@ -218,7 +218,7 @@ function buildIndex() {
       } else {
         titleInline.textContent = mobileTitleYear;
       }
-      col.insertBefore(titleInline, colImages);
+      col.appendChild(titleInline);
     }
 
     const colMeta = document.createElement('div');
