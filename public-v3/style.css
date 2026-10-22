@@ -981,10 +981,14 @@ body.about-to-index.about-open.about-closing #viewport {
     display: none;
   }
 
-  /* Title row above each project's filmstrip */
+  /* Title at end of filmstrip, top-aligned with the photos */
   .col-title-inline {
+    align-self: flex-start;
+    flex-shrink: 0;
+    max-width: 50%;
+    white-space: normal;
+    word-break: break-word;
     line-height: 1.2;
-    padding-bottom: 4px;
   }
 
   /* Project meta — same line spacing as header text (title now shown inline instead) */
